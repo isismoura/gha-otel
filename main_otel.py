@@ -226,6 +226,7 @@ def process_jobs(
 
             job_started_at = convert_time(job.started_at)
             job_completed_at = convert_time(job.completed_at)
+            job_created_at = convert_time(job.created_at)
 
             # Start the span manually for the job
             job_span_context_manager = tracer.start_as_current_span(
@@ -261,6 +262,7 @@ def process_jobs(
                 child_span.set_attribute("job.runner_name", job.runner_name)
             child_span.set_attribute("job.started_at", job_started_at)
             child_span.set_attribute("job.completed_at", job_completed_at)
+            child_span.set_attribute("job.created_at", job_created_at)
 
             annotations, error = fetch_annotations(repo, job.id)
             if error:
