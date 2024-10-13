@@ -51,7 +51,7 @@ provider = TracerProvider(resource=resource)
 processor = BatchSpanProcessor(otlp_exporter)
 processor_console = BatchSpanProcessor(ConsoleSpanExporter())
 
-# provider.add_span_processor(processor)
+provider.add_span_processor(processor)
 # provider.add_span_processor(processor_console)
 
 trace.set_tracer_provider(provider)  # Sets the global default tracer provider
@@ -360,8 +360,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--workflow", type=str, required=True, help="Workflow name (required)"
     )
-    parser.add_argument("--start", type=str, help="Timestamp start (optional)")
-    parser.add_argument("--end", type=str, help="Timestamp end (optional)")
+    parser.add_argument("--start", type=str, help="Start Date YYYY-MM-DD (optional)")
+    parser.add_argument("--end", type=str, help="End Date YYYY-MM-DD (optional)")
     parser.add_argument(
         "--skipsteps", action="store_true", help="Skip steps if this flag is provided"
     )
