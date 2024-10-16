@@ -29,7 +29,7 @@ load_dotenv()
 
 
 resource = Resource.create(
-    {"service.name": "im"}
+    {"service.name": "my-service"}
 )  # Create a resource to describe this service
 
 team_key = os.getenv("HC_TEAM_TOKEN")
@@ -227,6 +227,7 @@ def process_jobs(
             job_started_at = convert_time(job.started_at)
             job_completed_at = convert_time(job.completed_at)
             job_created_at = convert_time(job.created_at)
+            queue_time = (job_started_at - job_created_at)/1000000000
 
             # Start the span manually for the job
             job_span_context_manager = tracer.start_as_current_span(
@@ -263,6 +264,7 @@ def process_jobs(
             child_span.set_attribute("job.started_at", job_started_at)
             child_span.set_attribute("job.completed_at", job_completed_at)
             child_span.set_attribute("job.created_at", job_created_at)
+            child_span.set_attribute("job.queue_time_seconds", queue_time)
 
             annotations, error = fetch_annotations(repo, job.id)
             if error:

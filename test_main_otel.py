@@ -120,6 +120,7 @@ def test_process_jobs(mock_github_repo, mock_workflow):
     mock_job = mock.Mock()
     mock_job.started_at = datetime(2024, 1, 1, 12, 0, 0)
     mock_job.completed_at = datetime(2024, 1, 1, 12, 30, 0)
+    mock_job.created_at = datetime(2024, 1, 1, 11, 55, 0)
     mock_job.labels = ["label1", "label2"]
 
     mock_annotations = [
@@ -138,7 +139,7 @@ def test_process_jobs(mock_github_repo, mock_workflow):
 
     with mock.patch("main_otel.fetch_annotations", mock_fetch_annotations):
         jobs, job_spans = process_jobs(
-            [mock_run], [mock_span], "test-org", mock_github_repo
+            [mock_run], [mock_span], mock_github_repo
         )
 
     assert len(jobs) == len(job_spans) == 1
